@@ -59,8 +59,8 @@ struct radix_sort_value_type<8>
 };
 
 const char radix_sort_source[] =
-"#define K2 (1 << K)\n"
-"#define RADIX_MASK ((((T)(1)) << K) - 1)\n"
+"#define K2 (1 << K_BITS)\n"
+"#define RADIX_MASK ((((T)(1)) << K_BITS) - 1)\n"
 "#define SIGN_BIT ((sizeof(T) * CHAR_BIT) - 1)\n"
 
 "inline uint radix(const T x, const uint low_bit)\n"
@@ -149,7 +149,7 @@ const char radix_sort_source[] =
 "    }\n"
 
      // copy block counts to local memory
-"    __local uint local_counts[(1 << K)];\n"
+"    __local uint local_counts[K2];\n"
 "    if(lid < K2){\n"
 "        local_counts[lid] = counts[get_group_id(0) * K2 + lid];\n"
 "    }\n"
@@ -204,7 +204,7 @@ inline void radix_sort(Iterator first,
     program radix_sort_program =
         program::create_with_source(radix_sort_source, context);
     std::stringstream options;
-    options << "-DK=" << k;
+    options << "-DK_BITS=" << k;
     options << " -DT=" << type_name<sort_type>();
     options << " -DBLOCK_SIZE=" << block_size;
 
