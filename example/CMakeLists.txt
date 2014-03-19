@@ -16,6 +16,7 @@ set(EXAMPLES
   time_copy
   transform_sqrt
   vector_addition
+  opengl_wave
 )
 
 if (${BOOST_COMPUTE_USE_OFFLINE_CACHE})
@@ -51,6 +52,7 @@ if(${BOOST_COMPUTE_HAVE_VTK})
   add_executable(opengl_sphere opengl_sphere.cpp)
   target_link_libraries(opengl_sphere ${OPENCL_LIBRARIES} ${VTK_LIBRARIES} GL)
 endif()
+
 
 # qt examples
 if(${BOOST_COMPUTE_HAVE_QT})
